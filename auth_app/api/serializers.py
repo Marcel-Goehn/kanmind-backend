@@ -32,3 +32,27 @@ class RegistrationSerializer(serializers.ModelSerializer):
         account.set_password(validated_data["password"])
         account.save()
         return account
+    
+
+class LoginSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["email", "password"]
+        extra_kwargs = {
+            "password": {"write_only": True},
+            "email": {"required": True}
+        }
+
+    def validate(self, data):
+        try:
+            user = User.objects.get(email=data["email"])
+        except User.DoesNotExist:
+            raise serializers.ValidationError({ "error": "Email does not exist!" })
+
+        if not user.check_password(data["password"]):
+            raise serializers.ValidationError({ "error": "Password does not match!" })
+        
+        data["user"] = user
+        return data
+        
+        
