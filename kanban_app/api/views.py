@@ -1,17 +1,20 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from kanban_app.models import Board
-from .serializers import BoardListSerializer, BoardRetrieveSerializer
+from .serializers import BoardListSerializer, BoardRetrieveSerializer, BoardUpdateSerializer
 from .permissions import IsOwnerOrMember
 
 
 class ListCreateBoardView(generics.ListCreateAPIView):
-    queryset = Board.objects.all()
     serializer_class = BoardListSerializer
+
+    def get_queryset(self):
+        return Board.objects.filter(Q(owner=self.request.user) | Q(members__id=self.request.user.id)).distinct()
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -19,8 +22,15 @@ class ListCreateBoardView(generics.ListCreateAPIView):
 
 class RetrieveUpdateDestroyBoardView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Board.objects.all()
-    serializer_class = BoardRetrieveSerializer
     permission_classes = [IsOwnerOrMember]
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return BoardRetrieveSerializer
+        if self.request.method == "PATCH":
+            return BoardUpdateSerializer
+        if self.request.method == "PUT":
+            return BoardUpdateSerializer
 
 
 class EmailCheckView(APIView):

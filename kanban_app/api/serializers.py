@@ -34,25 +34,45 @@ class BoardListSerializer(serializers.ModelSerializer):
 
 class MemberSerializer(serializers.ModelSerializer):
 
-    fullname = serializers.CharField(source="username")
+    fullname = serializers.CharField(source="username", read_only=True)
 
     class Meta:
         model = User
         fields = ["id", "email", "fullname"]
+        read_only_fields = ["id", "email"]
 
 
-# class TaskSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Ticket
-#         fields = []
+class TaskSerializer(serializers.ModelSerializer):
+
+    assignee = MemberSerializer(read_only=True)
+    reviewer = MemberSerializer(read_only=True)
+
+    class Meta:
+        model = Ticket
+        fields = ["id", "title", "description", "status", "priority", "assignee", "reviewer"]
+        read_only_fields = ["id", "title", "description", "priority"]
     
 
 class BoardRetrieveSerializer(serializers.ModelSerializer):
 
     owner_id = serializers.IntegerField()
-    members = MemberSerializer(many=True)
-    # tasks = TaskSerializer(many=True)
+    members = MemberSerializer(many=True, read_only=True)
+    tasks = TaskSerializer(source="tickets", many=True, read_only=True)
 
     class Meta:
         model = Board
-        fields = ["id", "title", "owner_id", "members"]
+        fields = ["id", "title", "owner_id", "members", "tasks"]
+
+
+class BoardUpdateSerializer(serializers.ModelSerializer):
+
+    owner_data = MemberSerializer(source="owner", read_only=True)
+    members_data = MemberSerializer(source="members", read_only=True, many=True)
+
+    class Meta:
+        model = Board
+        fields = ["id", "title", "members", "owner_data", "members_data"]
+        read_only_fields = ["id"]
+        extra_kwargs = {
+            "members": { "write_only": True }
+        }
