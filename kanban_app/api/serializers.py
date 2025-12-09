@@ -1,5 +1,6 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
-from kanban_app.models import Board
+from kanban_app.models import Board, Ticket
 
 
 class BoardListSerializer(serializers.ModelSerializer):
@@ -29,3 +30,29 @@ class BoardListSerializer(serializers.ModelSerializer):
     
     def get_tasks_high_prio_count(self, obj):
         return obj.tickets.filter(priority="high").count()
+    
+
+class MemberSerializer(serializers.ModelSerializer):
+
+    fullname = serializers.CharField(source="username")
+
+    class Meta:
+        model = User
+        fields = ["id", "email", "fullname"]
+
+
+# class TaskSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Ticket
+#         fields = []
+    
+
+class BoardRetrieveSerializer(serializers.ModelSerializer):
+
+    owner_id = serializers.IntegerField()
+    members = MemberSerializer(many=True)
+    # tasks = TaskSerializer(many=True)
+
+    class Meta:
+        model = Board
+        fields = ["id", "title", "owner_id", "members"]

@@ -3,20 +3,24 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from kanban_app.models import Board
-from .serializers import BoardListSerializer
-# from .permissions import IsOwnerOrMember
+from .serializers import BoardListSerializer, BoardRetrieveSerializer
+from .permissions import IsOwnerOrMember
 
 
 class ListCreateBoardView(generics.ListCreateAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardListSerializer
-    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+
+class RetrieveUpdateDestroyBoardView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Board.objects.all()
+    serializer_class = BoardRetrieveSerializer
+    permission_classes = [IsOwnerOrMember]
 
 
 class EmailCheckView(APIView):
