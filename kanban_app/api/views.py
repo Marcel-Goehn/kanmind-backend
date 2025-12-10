@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
-from kanban_app.models import Board
-from .serializers import BoardListSerializer, BoardRetrieveSerializer, BoardUpdateSerializer
+from kanban_app.models import Board, Ticket
+from .serializers import BoardListSerializer, BoardRetrieveSerializer, BoardUpdateSerializer, TaskSerializer
 from .permissions import IsOwnerOrMember
 
 
@@ -42,3 +42,22 @@ class EmailCheckView(APIView):
             "fullname": user.username
         }
         return Response(data, status=status.HTTP_200_OK)
+
+
+class AssignedToMeView(generics.ListAPIView):
+    serializer_class = TaskSerializer
+
+    def get_queryset(self):
+        return Ticket.objects.filter(assignee=self.request.user)
+
+
+class ReviewView(generics.ListAPIView):
+    serializer_class = TaskSerializer
+
+    def get_queryset(self):
+        return Ticket.objects.filter(reviewer=self.request.user)
+    
+
+class CreateTaskView(generics.CreateAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = TaskSerializer

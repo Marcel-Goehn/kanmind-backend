@@ -42,7 +42,7 @@ class MemberSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "email"]
 
 
-class TaskSerializer(serializers.ModelSerializer):
+class HelperTaskSerializer(serializers.ModelSerializer):
 
     assignee = MemberSerializer(read_only=True)
     reviewer = MemberSerializer(read_only=True)
@@ -57,7 +57,7 @@ class BoardRetrieveSerializer(serializers.ModelSerializer):
 
     owner_id = serializers.IntegerField()
     members = MemberSerializer(many=True, read_only=True)
-    tasks = TaskSerializer(source="tickets", many=True, read_only=True)
+    tasks = HelperTaskSerializer(source="tickets", many=True, read_only=True)
 
     class Meta:
         model = Board
@@ -76,3 +76,16 @@ class BoardUpdateSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "members": { "write_only": True }
         }
+
+
+class TaskSerializer(serializers.ModelSerializer):
+
+    assignee = MemberSerializer(read_only=True)
+    reviewer = MemberSerializer(read_only=True)
+    assignee_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True, source="assignee")
+    reviewer_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True, source="reviewer")
+
+    class Meta:
+        model = Ticket
+        fields = ["id", "board", "title", "description", "status", "priority", "assignee_id", "assignee", "reviewer_id", "reviewer", "due_date"]
+        read_only_fields = ["id"]

@@ -32,8 +32,8 @@ class Ticket(models.Model):
     description = models.CharField(max_length=255)
     status = models.CharField(max_length=15, choices=status_choices)
     priority = models.CharField(max_length=15, choices=priority_choices)
-    assignee = models.OneToOneField(User, on_delete=models.CASCADE, related_name="ticket_assignee")
-    reviewer = models.OneToOneField(User, on_delete=models.CASCADE, related_name="ticket_reviewer")
+    assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ticket_assignee")
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ticket_reviewer")
     due_date = models.DateField()
 
     def __str__(self):
