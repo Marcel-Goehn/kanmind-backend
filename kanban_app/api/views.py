@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework import generics
+from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework import status
 from kanban_app.models import Board, Ticket
@@ -63,6 +64,12 @@ class CreateTaskView(generics.CreateAPIView):
     serializer_class = TaskSerializer
 
 
-class UpdateTaskView(generics.UpdateAPIView):
+class UpdateDeleteTaskView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
     queryset = Ticket.objects.all()
     serializer_class = TaskPatchSerializer
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+    
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
