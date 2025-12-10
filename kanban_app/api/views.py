@@ -6,7 +6,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
 from kanban_app.models import Board, Ticket
-from .serializers import BoardListSerializer, BoardRetrieveSerializer, BoardUpdateSerializer, TaskSerializer
+from .serializers import BoardListSerializer, BoardRetrieveSerializer, BoardUpdateSerializer, TaskSerializer, TaskPatchSerializer
 from .permissions import IsOwnerOrMember
 
 
@@ -61,3 +61,8 @@ class ReviewView(generics.ListAPIView):
 class CreateTaskView(generics.CreateAPIView):
     queryset = Ticket.objects.all()
     serializer_class = TaskSerializer
+
+
+class UpdateTaskView(generics.UpdateAPIView):
+    queryset = Ticket.objects.all()
+    serializer_class = TaskPatchSerializer

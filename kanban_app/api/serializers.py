@@ -89,3 +89,16 @@ class TaskSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = ["id", "board", "title", "description", "status", "priority", "assignee_id", "assignee", "reviewer_id", "reviewer", "due_date"]
         read_only_fields = ["id"]
+
+
+class TaskPatchSerializer(serializers.ModelSerializer):
+
+    assignee = MemberSerializer(read_only=True)
+    reviewer = MemberSerializer(read_only=True)
+    assignee_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True, source="assignee")
+    reviewer_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True, source="reviewer")
+
+    class Meta:
+        model = Ticket
+        fields = ["id", "title", "description", "status", "priority", "assignee_id", "assignee", "reviewer_id", "reviewer", "due_date"]
+        read_only_fields = ["id"]
