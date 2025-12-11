@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from kanban_app.models import Board, Ticket
+from kanban_app.models import Board, Ticket, Comment
 
 
 class BoardListSerializer(serializers.ModelSerializer):
@@ -102,3 +102,13 @@ class TaskPatchSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = ["id", "title", "description", "status", "priority", "assignee_id", "assignee", "reviewer_id", "reviewer", "due_date"]
         read_only_fields = ["id"]
+
+
+class CommentSerializer(serializers.ModelSerializer):
+
+    author = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ["id", "created_at", "author", "content"]
+        read_only_fields = ["id", "created_at"]

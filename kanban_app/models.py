@@ -38,4 +38,11 @@ class Ticket(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+class Comment(models.Model):
+    content = models.CharField(max_length=250)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
+    created_at = models.DateTimeField(auto_now_add=True)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name="comments", default="")
 

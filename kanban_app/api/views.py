@@ -6,8 +6,9 @@ from rest_framework import generics
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework import status
-from kanban_app.models import Board, Ticket
-from .serializers import BoardListSerializer, BoardRetrieveSerializer, BoardUpdateSerializer, TaskSerializer, TaskPatchSerializer
+from kanban_app.models import Board, Ticket, Comment
+from .serializers import (BoardListSerializer, BoardRetrieveSerializer, BoardUpdateSerializer,
+                          TaskSerializer, TaskPatchSerializer, CommentSerializer)
 from .permissions import IsOwnerOrMember
 
 
@@ -73,3 +74,23 @@ class UpdateDeleteTaskView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, ge
     
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+    
+
+class ListCreateCommentView(generics.ListCreateAPIView):
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        pk = self.kwargs["pk"]
+        return Comment.objects.filter(ticket=pk)
+
+    def perform_create(self, serializer):
+        ticket = get_object_or_404(Ticket, pk=self.kwargs["pk"])
+        serializer.save(author=self.request.user, ticket=ticket)
+
+
+class DestroyCommentView(generics.DestroyAPIView):
+
+    def get_queryset(self):
+        task_id = self.kwargs["task_id"]
+        return Comment.objects.filter(ticket=task_id)
+
