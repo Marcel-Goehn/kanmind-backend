@@ -9,7 +9,7 @@ from rest_framework import status
 from kanban_app.models import Board, Ticket, Comment
 from .serializers import (BoardListSerializer, BoardRetrieveSerializer, BoardUpdateSerializer,
                           TaskSerializer, TaskPatchSerializer, CommentSerializer)
-from .permissions import IsOwnerOrMember, IsMember
+from .permissions import IsOwnerOrMember, IsMember, IsPatchMember
 
 
 class ListCreateBoardView(generics.ListCreateAPIView):
@@ -69,7 +69,7 @@ class CreateTaskView(generics.CreateAPIView):
 class UpdateDeleteTaskView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
     queryset = Ticket.objects.all()
     serializer_class = TaskPatchSerializer
-    permission_classes = [IsMember]
+    permission_classes = [IsPatchMember]
 
     def patch(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
