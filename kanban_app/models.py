@@ -32,8 +32,8 @@ class Ticket(models.Model):
     description = models.CharField(max_length=255)
     status = models.CharField(max_length=15, choices=status_choices)
     priority = models.CharField(max_length=15, choices=priority_choices)
-    assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ticket_assignee")
-    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ticket_reviewer")
+    assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ticket_assignee", null=True, blank=True)
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ticket_reviewer", null=True, blank=True)
     due_date = models.DateField()
 
     def __str__(self):
@@ -45,4 +45,7 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     created_at = models.DateTimeField(auto_now_add=True)
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE, related_name="comments", default="")
+
+    def __str__(self):
+        return self.content
 

@@ -1,5 +1,4 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
-from kanban_app.models import Board
 
 class IsOwnerOrMember(BasePermission):
     def has_object_permission(self, request, view, obj):

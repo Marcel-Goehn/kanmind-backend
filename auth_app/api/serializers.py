@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework import serializers
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -10,8 +10,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username", "fullname", "email", "password", "repeated_password"]
+        read_only_fields = ["id"]
         extra_kwargs = {
-            "id": { "read_only": True },
             "email": { "required": True },
             "password": { "write_only": True },
             "username": { "required": False }

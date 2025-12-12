@@ -46,11 +46,15 @@ class HelperTaskSerializer(serializers.ModelSerializer):
 
     assignee = MemberSerializer(read_only=True)
     reviewer = MemberSerializer(read_only=True)
+    comments_count = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Ticket
-        fields = ["id", "title", "description", "status", "priority", "assignee", "reviewer"]
+        fields = ["id", "title", "description", "status", "priority", "assignee", "reviewer", "comments_count"]
         read_only_fields = ["id", "title", "description", "priority"]
+
+    def get_comments_count(self, obj):
+        return obj.comments.count()
     
 
 class BoardRetrieveSerializer(serializers.ModelSerializer):
@@ -82,13 +86,18 @@ class TaskSerializer(serializers.ModelSerializer):
 
     assignee = MemberSerializer(read_only=True)
     reviewer = MemberSerializer(read_only=True)
-    assignee_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True, source="assignee")
-    reviewer_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True, source="reviewer")
+    assignee_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True, source="assignee", required=False)
+    reviewer_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), write_only=True, source="reviewer", required=False)
+    comments_count = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Ticket
-        fields = ["id", "board", "title", "description", "status", "priority", "assignee_id", "assignee", "reviewer_id", "reviewer", "due_date"]
+        fields = ["id", "board", "title", "description", "status", "priority", "assignee_id", "assignee", "reviewer_id", "reviewer", "due_date", "comments_count"]
         read_only_fields = ["id"]
+
+    def get_comments_count(self, obj):
+        return obj.comments.count()
+
 
 
 class TaskPatchSerializer(serializers.ModelSerializer):
