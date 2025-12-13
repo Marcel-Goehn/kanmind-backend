@@ -143,7 +143,7 @@ POST /api/boards/
 #### Get information about a specific board. The authenticated user has to be a member or the owner of the board.
 
 ```http
-GET api/boards/{board_id}/
+GET /api/boards/{board_id}/
 ```
 
 | Parameter | Type   | Description |
@@ -208,7 +208,7 @@ GET api/boards/{board_id}/
 #### Change members and/or title of the board. The authenticated user has to be a member or owner of the board
 
 ```http
-PATCH api/boards/{board_id}/
+PATCH /api/boards/{board_id}/
 ```
 
 | Parameter | Type   | Description |
@@ -257,7 +257,7 @@ PATCH api/boards/{board_id}/
 #### Delete a specific board. Only the owner of the board can delete it.
 
 ```http
-DELETE api/boards/{board_id}/
+DELETE /api/boards/{board_id}/
 ```
 
 | Parameter | Type   | Description |
@@ -270,7 +270,7 @@ DELETE api/boards/{board_id}/
 #### Check if Email is already in use.
 
 ```http
-GET api/email-check/
+GET /api/email-check/
 ```
 
 | Parameter | Type     | Description                       |
@@ -292,7 +292,7 @@ GET api/email-check/
 #### Get all tasks that are assigned to the authenticated user.
 
 ```http
-GET api/tasks/assigned-to-me/
+GET /api/tasks/assigned-to-me/
 ```
 
 | Parameter | Type     | Description                       |
@@ -345,7 +345,7 @@ GET api/tasks/assigned-to-me/
 #### Get all tasks that the authenticated user has to review.
 
 ```http
-GET api/tasks/reviewing/
+GET /api/tasks/reviewing/
 ```
 
 | Parameter | Type     | Description                       |
@@ -398,7 +398,7 @@ GET api/tasks/reviewing/
 #### Create a new task. The authenticated user has to be a member of the board. The assignee and reviewer also have to be members of the board. If not chosen, the fields will return null. For the status field, the following values are allowed: to-do, in-progress, review and done. For the priority field, the following values are allowed: low, medium and high.
 
 ```http
-POST api/tasks/
+POST /api/tasks/
 ```
 
 | Parameter | Type     | Description                       |
@@ -448,7 +448,7 @@ POST api/tasks/
 #### Update a specific task. The authenticated user has to be a member of the board. Assignee and Reviewer also have to be members of the board.
 
 ```http
-PATCH api/tasks/{task_id}/
+PATCH /api/tasks/{task_id}/
 ```
 
 | Parameter | Type   | Description |
@@ -496,7 +496,7 @@ PATCH api/tasks/{task_id}/
 #### Deletes a task. Only the creator of the task or the owner of the board is allowed to delete it.
 
 ```http
-DELETE api/tasks/{task_id}/
+DELETE /api/tasks/{task_id}/
 ```
 
 | Parameter | Type   | Description |
@@ -509,7 +509,7 @@ DELETE api/tasks/{task_id}/
 #### Get all comments, that belong to a specific task. The authenticated user has to be a member of the board, where the task belongs to.
 
 ```http
-GET api/tasks/{task_id}/comments/
+GET /api/tasks/{task_id}/comments/
 ```
 
 | Parameter | Type   | Description |
@@ -539,7 +539,7 @@ GET api/tasks/{task_id}/comments/
 #### Create a new comment for a specific task. The authenticated user has to be a member of the board, where the task belongs to.
 
 ```http
-POST api/tasks/{task_id}/comments/
+POST /api/tasks/{task_id}/comments/
 ```
 
 | Parameter | Type   | Description |
@@ -569,7 +569,7 @@ POST api/tasks/{task_id}/comments/
 #### Deletes a specific comment of a task. Only the creator of the comment can delete it.
 
 ```http
-DELETE api/tasks/{task_id}/comments/{comment_id}/
+DELETE /api/tasks/{task_id}/comments/{comment_id}/
 ```
 
 | Parameter  | Type   | Description |
