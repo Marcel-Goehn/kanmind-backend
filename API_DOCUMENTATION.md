@@ -67,7 +67,7 @@ POST /api/login/
 
 ## Board
 
-#### Get List of boards, where the authenticated user is a member of the board of the owner
+#### Get a List of boards, where the authenticated user is a member of the board or the owner
 
 ```http
 GET /api/boards/
@@ -75,7 +75,7 @@ GET /api/boards/
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 
 #### Success Response: 200 OK
 
@@ -110,7 +110,7 @@ POST /api/boards/
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 
 #### Request Body:
 
@@ -148,7 +148,7 @@ GET api/boards/{board_id}/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 | board_id    | number | **Required**: ID of the board |
 
 #### Success Response: 200 OK
@@ -213,7 +213,7 @@ PATCH api/boards/{board_id}/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 | board_id    | number | **Required**: ID of the board |
 
 #### Request Body:
@@ -262,7 +262,7 @@ DELETE api/boards/{board_id}/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 | board_id    | number | **Required**: ID of the board |
 
 #### Success Response: 204 No Content
@@ -275,7 +275,7 @@ GET api/email-check/
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 
 #### Response Success: 200 OK
 
@@ -297,7 +297,7 @@ GET api/tasks/assigned-to-me/
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 
 #### Success Response: 200 OK
 
@@ -350,7 +350,7 @@ GET api/tasks/reviewing/
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 
 #### Success Response: 200 OK
 
@@ -403,7 +403,7 @@ POST api/tasks/
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 
 #### Request Body:
 
@@ -453,7 +453,7 @@ PATCH api/tasks/{task_id}/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 | task_id    | number | **Required**: ID of the task |
 
 #### Request Body:
@@ -501,7 +501,7 @@ DELETE api/tasks/{task_id}/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 | task_id    | number | **Required**: ID of the task |
 
 #### Success Response: 204 No Content
@@ -514,7 +514,7 @@ GET api/tasks/{task_id}/comments/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 | task_id    | number | **Required**: ID of the task |
 
 #### Success Response: 200 OK
@@ -544,7 +544,7 @@ POST api/tasks/{task_id}/comments/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 | task_id    | number | **Required**: ID of the task |
 
 #### Request Body:
@@ -574,7 +574,7 @@ DELETE api/tasks/{task_id}/comments/{comment_id}/
 
 | Parameter  | Type   | Description |
 | :--------- | :----- | :---------- |
-| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| `Headers -> Authorization`      | `string` | **Required**: `Token <token>` |
 | task_id    | number | **Required**: ID of the task |
 | comment_id | number | **Required**: ID of the comment |
 
