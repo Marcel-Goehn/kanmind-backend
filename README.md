@@ -7,7 +7,7 @@ It provides a RESTful API for managing boards, tickets, and comments.
 
 ## Documentation
 
-[API Documentation](https://linktodocumentation)
+[API Documentation](https://github.com/Marcel-Goehn/kanmind-backend/blob/main/API_DOCUMENTATION.md)
 
 
 ## Tech Stack
