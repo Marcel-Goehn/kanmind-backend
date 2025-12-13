@@ -35,6 +35,7 @@ class Ticket(models.Model):
     assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ticket_assignee", null=True, blank=True)
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ticket_reviewer", null=True, blank=True)
     due_date = models.DateField()
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ticket_creator", null=True, blank=True)
 
     def __str__(self):
         return self.title

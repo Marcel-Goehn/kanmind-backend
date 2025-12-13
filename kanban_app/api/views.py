@@ -65,6 +65,9 @@ class CreateTaskView(generics.CreateAPIView):
     serializer_class = TaskSerializer
     permission_classes = [IsMember]
 
+    def perform_create(self, serializer):
+        serializer.save(creator=self.request.user)
+
 
 class UpdateDeleteTaskView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
     queryset = Ticket.objects.all()

@@ -36,5 +36,11 @@ class IsPatchMember(BasePermission):
         if request.method in ["PUT", "PATCH"]:
             if request.user in obj.board.members.all():
                 return True
+            
+        if request.method == "DELETE":
+            if request.user == obj.board.owner:
+                return True
+            if request.user == obj.creator:
+                return True
 
         return False
