@@ -24,7 +24,7 @@ POST /api/registration/
 }
 ```
 
-#### Success Response:
+#### Success Response: 201 Created
 
 ```json
 {
@@ -54,7 +54,7 @@ POST /api/login/
 }
 ```
 
-#### Success Response:
+#### Success Response: 200 OK
 
 ```json
 {
@@ -75,9 +75,9 @@ GET /api/boards/
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| ``      | `` | **Required**: Token of the authenticated user in the authorization headers. |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
 
-#### Success Response:
+#### Success Response: 200 OK
 
 ```json
 [
@@ -110,7 +110,7 @@ POST /api/boards/
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| ``      | `` | **Required**: Token of the authenticated user in the authorization headers. |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
 
 #### Request Body:
 
@@ -126,7 +126,7 @@ POST /api/boards/
 }
 ```
 
-#### Success Response:
+#### Success Response: 201 Created
 
 ```json
 {
@@ -148,10 +148,10 @@ GET api/boards/{board_id}/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| token     | string | **Required**: Token of the authenticated user in the authorization headers. |
-| board_id    | number | **Required**: ID of the  board |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| board_id    | number | **Required**: ID of the board |
 
-#### Success Response:
+#### Success Response: 200 OK
 
 ```json
 {
@@ -213,8 +213,8 @@ PATCH api/boards/{board_id}/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| token     | string | **Required**: Token of the authenticated user in the authorization headers. |
-| board_id    | number | **Required**: ID of the  board |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| board_id    | number | **Required**: ID of the board |
 
 #### Request Body:
 
@@ -228,7 +228,7 @@ PATCH api/boards/{board_id}/
 }
 ```
 
-#### Success Response:
+#### Success Response: 200 OK
 
 ```json
 {
@@ -262,8 +262,10 @@ DELETE api/boards/{board_id}/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| token     | string | **Required**: Token of the authenticated user in the authorization headers. |
-| board_id    | number | **Required**: ID of the  board |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| board_id    | number | **Required**: ID of the board |
+
+#### Success Response: 204 No Content
 
 #### Check if Email is already in use.
 
@@ -273,9 +275,9 @@ GET api/email-check/
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| ``      | `` | **Required**: Token of the authenticated user in the authorization headers. |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
 
-#### Response Success:
+#### Response Success: 200 OK
 
 ```json
 {
@@ -295,9 +297,9 @@ GET api/tasks/assigned-to-me/
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| ``      | `` | **Required**: Token of the authenticated user in the authorization headers. |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
 
-#### Success Response:
+#### Success Response: 200 OK
 
 ```json
 [
@@ -348,9 +350,9 @@ GET api/tasks/reviewing/
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| ``      | `` | **Required**: Token of the authenticated user in the authorization headers. |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
 
-#### Success Response:
+#### Success Response: 200 OK
 
 ```json
 [
@@ -393,7 +395,7 @@ GET api/tasks/reviewing/
 ]
 ```
 
-#### Create a new task. The authenticated user has to be a member of the board. The assignee and reviewer als have to be members of the board. If not chosen, the fields will return null. For the status field, the following values are allowed: to-do, in-progress, review and done. For the priority field, the following values are allowed: low, medium and high.
+#### Create a new task. The authenticated user has to be a member of the board. The assignee and reviewer also have to be members of the board. If not chosen, the fields will return null. For the status field, the following values are allowed: to-do, in-progress, review and done. For the priority field, the following values are allowed: low, medium and high.
 
 ```http
 POST api/tasks/
@@ -401,7 +403,7 @@ POST api/tasks/
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| ``      | `` | **Required**: Token of the authenticated user in the authorization headers. |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
 
 #### Request Body:
 
@@ -418,7 +420,7 @@ POST api/tasks/
 }
 ```
 
-#### Success Response:
+#### Success Response: 201 Created
 
 ```json
 {
@@ -451,8 +453,8 @@ PATCH api/tasks/{task_id}/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| token     | string | **Required**: Token of the authenticated user in the authorization headers. |
-| task_id    | number | **Required**: ID of the  task |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| task_id    | number | **Required**: ID of the task |
 
 #### Request Body:
 
@@ -468,7 +470,7 @@ PATCH api/tasks/{task_id}/
 }
 ```
 
-#### Success Response:
+#### Success Response: 200 OK
 
 ```json
 {
@@ -499,10 +501,12 @@ DELETE api/tasks/{task_id}/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| token     | string | **Required**: Token of the authenticated user in the authorization headers. |
-| task_id    | number | **Required**: ID of the  task |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| task_id    | number | **Required**: ID of the task |
 
-#### Ge all comments, that belong to a specific task. The authenticated user has to be a member of the board, where the task belongs to.
+#### Success Response: 204 No Content
+
+#### Get all comments, that belong to a specific task. The authenticated user has to be a member of the board, where the task belongs to.
 
 ```http
 GET api/tasks/{task_id}/comments/
@@ -510,10 +514,10 @@ GET api/tasks/{task_id}/comments/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| token     | string | **Required**: Token of the authenticated user in the authorization headers. |
-| task_id    | number | **Required**: ID of the  task |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| task_id    | number | **Required**: ID of the task |
 
-#### Success Response:
+#### Success Response: 200 OK
 
 ```json
 [
@@ -540,8 +544,8 @@ POST api/tasks/{task_id}/comments/
 
 | Parameter | Type   | Description |
 | :-------- | :----- | :---------- |
-| token     | string | **Required**: Token of the authenticated user in the authorization headers. |
-| task_id    | number | **Required**: ID of the  task |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
+| task_id    | number | **Required**: ID of the task |
 
 #### Request Body:
 
@@ -551,7 +555,7 @@ POST api/tasks/{task_id}/comments/
 }
 ```
 
-#### Success Response:
+#### Success Response: 201 Created
 
 ```json
 {
@@ -570,7 +574,9 @@ DELETE api/tasks/{task_id}/comments/{comment_id}/
 
 | Parameter  | Type   | Description |
 | :--------- | :----- | :---------- |
-| token      | string | **Required**: Token of the authenticated user in the authorization headers. |
+| `Headers -> Authorization`      | `string` | **Required**: Token <token> |
 | task_id    | number | **Required**: ID of the task |
 | comment_id | number | **Required**: ID of the comment |
+
+#### Success Response: 204 No Content
 
