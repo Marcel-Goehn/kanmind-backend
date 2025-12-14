@@ -9,7 +9,8 @@ from rest_framework import status
 from kanban_app.models import Board, Ticket, Comment
 from .serializers import (BoardListSerializer, BoardRetrieveSerializer, BoardUpdateSerializer,
                           TaskSerializer, TaskPatchSerializer, CommentSerializer)
-from .permissions import IsOwnerOrMember, IsMember, IsPatchMember
+from .permissions import (IsOwnerOrMember, IsMember, IsPatchMember, IsBoardTaskMember, 
+                          IsOwnerOfComment)
 
 
 class ListCreateBoardView(generics.ListCreateAPIView):
@@ -83,10 +84,11 @@ class UpdateDeleteTaskView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, ge
 
 class ListCreateCommentView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
+    permission_classes = [IsBoardTaskMember]
 
     def get_queryset(self):
         pk = self.kwargs["pk"]
-        return Comment.objects.filter(ticket=pk)
+        return Comment.objects.filter(ticket=pk).order_by("created_at")
 
     def perform_create(self, serializer):
         ticket = get_object_or_404(Ticket, pk=self.kwargs["pk"])
@@ -94,6 +96,7 @@ class ListCreateCommentView(generics.ListCreateAPIView):
 
 
 class DestroyCommentView(generics.DestroyAPIView):
+    permission_classes = [IsOwnerOfComment]
 
     def get_queryset(self):
         task_id = self.kwargs["task_id"]

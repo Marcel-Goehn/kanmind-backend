@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import BasePermission, SAFE_METHODS
-from kanban_app.models import Board
+from kanban_app.models import Board, Ticket
 
 
 class IsOwnerOrMember(BasePermission):
@@ -31,7 +31,6 @@ class IsMember(BasePermission):
 
 
 class IsPatchMember(BasePermission):
-
     def has_object_permission(self, request, view, obj):
         if request.method in ["PUT", "PATCH"]:
             if request.user in obj.board.members.all():
@@ -44,3 +43,18 @@ class IsPatchMember(BasePermission):
                 return True
 
         return False
+    
+
+class IsBoardTaskMember(BasePermission):
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS or request.method == "POST":
+            ticket = get_object_or_404(Ticket, pk=view.kwargs.get("pk"))
+            if ticket.board.members.filter(pk=request.user.pk).exists():
+                return True
+            return False
+        
+    
+class IsOwnerOfComment(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method == "DELETE":
+            return request.user == obj.author
