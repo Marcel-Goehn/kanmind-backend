@@ -7,9 +7,22 @@ from .serializers import RegistrationSerializer, LoginSerializer
         
 
 class RegistrationView(APIView):
+    """Register a new user."""
+
     permission_classes = [AllowAny]
 
     def post(self, req):
+        """
+        This method does the following:
+            - calls the validation methods in the serializer
+            - saves the new user to the database
+            - crates a token and associates it with the user
+            - sends back a json response
+
+        The response includes the following:
+            - 200 OK if the request was a success
+            - 400 if it was a bad request
+        """
         serializer = RegistrationSerializer(data=req.data)
         if serializer.is_valid():
             user = serializer.save()
@@ -26,9 +39,21 @@ class RegistrationView(APIView):
         
 
 class LoginView(APIView):
+    """Login for a registered user."""
+
     permission_classes = [AllowAny]
 
     def post(self, req):
+        """
+        This method does the following:
+            - calls the validation methods in the serializer
+            - gives back a token to authenticate the user
+            - sends back a json response
+
+        The response includes the following:
+            - 200 OK if the the email and password are correct
+            - 400 if either/both the email and/or password are incorrect
+        """
         serializer = LoginSerializer(data=req.data)
         if serializer.is_valid():
             user = serializer.validated_data["user"]
